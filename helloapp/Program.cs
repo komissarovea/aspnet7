@@ -6,23 +6,28 @@ WebApplication app = builder.Build();
 app.MapGet("/",
     (HttpContext context) =>
     {
-        var acceptLanguages = context.Request.GetTypedHeaders().AcceptLanguage.OrderByDescending(x => x.Quality ?? 1);
-        var requestCulture = context.Features.Get<IRequestCultureFeature>();
-        Console.WriteLine(context.Connection);
-        Console.WriteLine(context.Features);
-        Console.WriteLine(context.Items);
-        Console.WriteLine(context.Request);
-        Console.WriteLine(context.RequestAborted);
-        Console.WriteLine(context.RequestServices);
-        Console.WriteLine(context.Response);
-        //Console.WriteLine(context.Session);
-        Console.WriteLine(context.TraceIdentifier);
-        Console.WriteLine(context.User);
-        Console.WriteLine(context.WebSockets);
         return "Hello World!";
     });
 
+app.UseWelcomePage();
+
+
 app.Run();
+
+
+//var acceptLanguages = context.Request.GetTypedHeaders().AcceptLanguage.OrderByDescending(x => x.Quality ?? 1);
+//var requestCulture = context.Features.Get<IRequestCultureFeature>();
+//Console.WriteLine(context.Connection);
+//Console.WriteLine(context.Features);
+//Console.WriteLine(context.Items);
+//Console.WriteLine(context.Request);
+//Console.WriteLine(context.RequestAborted);
+//Console.WriteLine(context.RequestServices);
+//Console.WriteLine(context.Response);
+////Console.WriteLine(context.Session);
+//Console.WriteLine(context.TraceIdentifier);
+//Console.WriteLine(context.User);
+//Console.WriteLine(context.WebSockets);
 
 // WebApplicationOptions options = new WebApplicationOptions() { Args = args };
 //builder.Configuration
