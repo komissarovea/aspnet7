@@ -1,5 +1,30 @@
-WebApplicationOptions options = new WebApplicationOptions() { Args = args };
-WebApplicationBuilder builder = WebApplication.CreateBuilder(options);
+using Microsoft.AspNetCore.Localization;
+
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+WebApplication app = builder.Build();
+
+app.MapGet("/",
+    (HttpContext context) =>
+    {
+        var acceptLanguages = context.Request.GetTypedHeaders().AcceptLanguage.OrderByDescending(x => x.Quality ?? 1);
+        var requestCulture = context.Features.Get<IRequestCultureFeature>();
+        Console.WriteLine(context.Connection);
+        Console.WriteLine(context.Features);
+        Console.WriteLine(context.Items);
+        Console.WriteLine(context.Request);
+        Console.WriteLine(context.RequestAborted);
+        Console.WriteLine(context.RequestServices);
+        Console.WriteLine(context.Response);
+        //Console.WriteLine(context.Session);
+        Console.WriteLine(context.TraceIdentifier);
+        Console.WriteLine(context.User);
+        Console.WriteLine(context.WebSockets);
+        return "Hello World!";
+    });
+
+app.Run();
+
+// WebApplicationOptions options = new WebApplicationOptions() { Args = args };
 //builder.Configuration
 //builder.Environment
 //builder.Host
@@ -7,10 +32,10 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(options);
 //builder.Services
 //builder.WebHost
 
-WebApplication app = builder.Build();
-IHost host = app;
-IApplicationBuilder applicationBuilder = app;
-IEndpointRouteBuilder endpointRouteBuilder = app;
+//IHost host = app;
+//IApplicationBuilder applicationBuilder = app;
+//IEndpointRouteBuilder endpointRouteBuilder = app;
+
 //app.Configuration
 //app.Environment
 //app.Lifetime
@@ -18,14 +43,8 @@ IEndpointRouteBuilder endpointRouteBuilder = app;
 //app.Services
 //app.Urls
 
-app.MapGet("/", () => "Hello World!");
-
-//app.Run();
 //app.RunAsync();
 //app.Start();
 //app.StartAsync();
 //app.StopAsync();
 
-await app.StartAsync();
-await Task.Delay(10000);
-await app.StopAsync();  // через 10 секунд завершаем выполнение приложения
