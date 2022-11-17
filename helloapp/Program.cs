@@ -9,10 +9,27 @@ app.MapGet("/",
         return "Hello World!";
     });
 
+int x = 2;
+int y = 1;
+app.Run(async (context) =>
+{
+    x = x * 2;  //  2 * 2 = 4
+    y++;
+    await context.Response.WriteAsync($"Result: 2^{y} = {x}");
+});
+
+app.Run(HandleRequst);
+
+app.Run(async (context) => await context.Response.WriteAsync("Hello METANIT.COM"));
+
 app.UseWelcomePage();
 
-
 app.Run();
+
+async Task HandleRequst(HttpContext context)
+{
+    await context.Response.WriteAsync("Hello METANIT.COM 2");
+}
 
 
 //var acceptLanguages = context.Request.GetTypedHeaders().AcceptLanguage.OrderByDescending(x => x.Quality ?? 1);
