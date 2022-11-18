@@ -1,31 +1,99 @@
+using System.Diagnostics;
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 WebApplication app = builder.Build();
 
 app.Run(async (context) =>
 {
-    HttpResponse response = context.Response;
-    Console.WriteLine(response.Body);
-    Console.WriteLine(response.BodyWriter);
-    Console.WriteLine(response.ContentLength);
-    Console.WriteLine(response.ContentType);
-    Console.WriteLine(response.Cookies);
-    Console.WriteLine(response.HasStarted);
-    Console.WriteLine(response.Headers);
-    Console.WriteLine(response.Headers.Host);
-    Console.WriteLine(response.HttpContext);
-    Console.WriteLine(response.StatusCode);
+    HttpRequest request = context.Request;
 
-    response.Headers.ContentLanguage = "ru-RU";
-    response.Headers.ContentType = "text/plain; charset=utf-8";  // response.ContentType
-    response.ContentType = "text/html; charset=utf-8";
-    response.Headers.Append("secret-id", "256");    // добавление кастомного заголовка
-    response.StatusCode = 404;
-    await response.WriteAsync("Привет METANIT.COM", System.Text.Encoding.Default);
-    await response.WriteAsync("<h2>Hello METANIT.COM</h2><h3>Welcome to ASP.NET Core</h3>");
-    //response.SendFileAsync()
+    Debug.WriteLine(request.Body);
+    Debug.WriteLine(request.BodyReader);
+    Debug.WriteLine(request.ContentLength);
+    Debug.WriteLine(request.ContentType);
+    Debug.WriteLine(request.Cookies);
+    // Debug.WriteLine(request.Form);
+    Debug.WriteLine(request.HasFormContentType);
+    Debug.WriteLine(request.Headers);
+    Debug.WriteLine(request.Host);
+    Debug.WriteLine(request.HttpContext);
+    Debug.WriteLine(request.IsHttps);
+    Debug.WriteLine(request.Method);
+    Debug.WriteLine(request.Path);
+    Debug.WriteLine(request.PathBase);
+    Debug.WriteLine(request.Protocol);
+    Debug.WriteLine(request.Query);
+    Debug.WriteLine(request.QueryString);
+    Debug.WriteLine(request.RouteValues);
+    Debug.WriteLine(request.Scheme);
+
+    context.Response.ContentType = "text/html; charset=utf-8";
+    await context.Response.WriteAsync($"<p>Path: {context.Request.Path}</p>" +
+        $"<p>QueryString: {context.Request.QueryString}</p>");
+
+    var stringBuilder = new System.Text.StringBuilder("<h3>Параметры строки запроса</h3><table>");
+    stringBuilder.Append("<tr><td>Параметр</td><td>Значение</td></tr>");
+    foreach (var param in context.Request.Query)
+    {
+        stringBuilder.Append($"<tr><td>{param.Key}</td><td>{param.Value}</td></tr>");
+    }
+    stringBuilder.Append("</table>");
+    await context.Response.WriteAsync(stringBuilder.ToString());
+
+    string name = context.Request.Query["name"];
+    string age = context.Request.Query["age"];
+    await context.Response.WriteAsync($"{name} - {age}");
+
+    //var path = context.Request.Path;
+    //var now = DateTime.Now;
+    //var response = context.Response;
+
+    //if (path == "/date")
+    //    await response.WriteAsync($"Date: {now.ToShortDateString()}");
+    //else if (path == "/time")
+    //    await response.WriteAsync($"Time: {now.ToShortTimeString()}");
+    //else
+    //    await response.WriteAsync("Hello METANIT.COM");
+
+    //context.Response.ContentType = "text/html; charset=utf-8";
+
+    //var acceptHeaderValue = context.Request.Headers.Accept;
+    //await context.Response.WriteAsync($"<br>Accept: {acceptHeaderValue}<br>");
+
+    //await context.Response.WriteAsync($"<br>Path: {context.Request.Path}<br><br>");
+
+    //var stringBuilder = new System.Text.StringBuilder("<table>");
+
+    //foreach (var header in request.Headers)
+    //{
+    //    stringBuilder.Append($"<tr><td>{header.Key}</td><td>{header.Value}</td></tr>");
+    //}
+    //stringBuilder.Append("</table>");
+    //await context.Response.WriteAsync(stringBuilder.ToString());
 });
 
 app.Run();
+
+//HttpResponse response = context.Response;
+//Console.WriteLine(response.Body);
+//Console.WriteLine(response.BodyWriter);
+//Console.WriteLine(response.ContentLength);
+//Console.WriteLine(response.ContentType);
+//Console.WriteLine(response.Cookies);
+//Console.WriteLine(response.HasStarted);
+//Console.WriteLine(response.Headers);
+//Console.WriteLine(response.Headers.Host);
+//Console.WriteLine(response.HttpContext);
+//Console.WriteLine(response.StatusCode);
+
+//response.Headers.ContentLanguage = "ru-RU";
+//response.Headers.ContentType = "text/plain; charset=utf-8";  // response.ContentType
+//response.ContentType = "text/html; charset=utf-8";
+//response.Headers.Append("secret-id", "256");    // добавление кастомного заголовка
+//response.StatusCode = 404;
+//await response.WriteAsync("Привет METANIT.COM", System.Text.Encoding.Default);
+//await response.WriteAsync("<h2>Hello METANIT.COM</h2><h3>Welcome to ASP.NET Core</h3>");
+//response.SendFileAsync()
 
 //int x = 2;
 //int y = 1;
