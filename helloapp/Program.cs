@@ -1,3 +1,4 @@
+using Microsoft.Extensions.FileProviders;
 using System.Diagnostics;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -5,74 +6,105 @@ WebApplication app = builder.Build();
 
 app.Run(async (context) =>
 {
-    HttpRequest request = context.Request;
+    PhysicalFileProvider fileProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory());
+    IFileInfo fileinfo = fileProvider.GetFileInfo("forest.jpg");
+    // FileInfo fi =new FileInfo("forest.jpg");
 
-    Debug.WriteLine(request.Body);
-    Debug.WriteLine(request.BodyReader);
-    Debug.WriteLine(request.ContentLength);
-    Debug.WriteLine(request.ContentType);
-    Debug.WriteLine(request.Cookies);
-    // Debug.WriteLine(request.Form);
-    Debug.WriteLine(request.HasFormContentType);
-    Debug.WriteLine(request.Headers);
-    Debug.WriteLine(request.Host);
-    Debug.WriteLine(request.HttpContext);
-    Debug.WriteLine(request.IsHttps);
-    Debug.WriteLine(request.Method);
-    Debug.WriteLine(request.Path);
-    Debug.WriteLine(request.PathBase);
-    Debug.WriteLine(request.Protocol);
-    Debug.WriteLine(request.Query);
-    Debug.WriteLine(request.QueryString);
-    Debug.WriteLine(request.RouteValues);
-    Debug.WriteLine(request.Scheme);
+    context.Response.Headers.ContentDisposition = "attachment; filename=my_forest2.jpg";
+    await context.Response.SendFileAsync(fileinfo);
 
-    context.Response.ContentType = "text/html; charset=utf-8";
-    await context.Response.WriteAsync($"<p>Path: {context.Request.Path}</p>" +
-        $"<p>QueryString: {context.Request.QueryString}</p>");
-
-    var stringBuilder = new System.Text.StringBuilder("<h3>Параметры строки запроса</h3><table>");
-    stringBuilder.Append("<tr><td>Параметр</td><td>Значение</td></tr>");
-    foreach (var param in context.Request.Query)
-    {
-        stringBuilder.Append($"<tr><td>{param.Key}</td><td>{param.Value}</td></tr>");
-    }
-    stringBuilder.Append("</table>");
-    await context.Response.WriteAsync(stringBuilder.ToString());
-
-    string name = context.Request.Query["name"];
-    string age = context.Request.Query["age"];
-    await context.Response.WriteAsync($"{name} - {age}");
+    //context.Response.Headers.ContentDisposition = "attachment; filename=my_forest.jpg";
+    //await context.Response.SendFileAsync("forest.jpg");
 
     //var path = context.Request.Path;
-    //var now = DateTime.Now;
+    //var fullPath = $"html/{path}";
     //var response = context.Response;
 
-    //if (path == "/date")
-    //    await response.WriteAsync($"Date: {now.ToShortDateString()}");
-    //else if (path == "/time")
-    //    await response.WriteAsync($"Time: {now.ToShortTimeString()}");
+    //response.ContentType = "text/html; charset=utf-8";
+    //if (File.Exists(fullPath))
+    //{
+    //    await response.SendFileAsync(fullPath);
+    //}
     //else
-    //    await response.WriteAsync("Hello METANIT.COM");
+    //{
+    //    response.StatusCode = 404;
+    //    await response.WriteAsync("<h2>Not Found</h2>");
+    //}
 
     //context.Response.ContentType = "text/html; charset=utf-8";
+    //await context.Response.SendFileAsync("html/index.html");
 
-    //var acceptHeaderValue = context.Request.Headers.Accept;
-    //await context.Response.WriteAsync($"<br>Accept: {acceptHeaderValue}<br>");
-
-    //await context.Response.WriteAsync($"<br>Path: {context.Request.Path}<br><br>");
-
-    //var stringBuilder = new System.Text.StringBuilder("<table>");
-
-    //foreach (var header in request.Headers)
-    //{
-    //    stringBuilder.Append($"<tr><td>{header.Key}</td><td>{header.Value}</td></tr>");
-    //}
-    //stringBuilder.Append("</table>");
-    //await context.Response.WriteAsync(stringBuilder.ToString());
+    //await context.Response.SendFileAsync("D:\\forest.jpg");
+    //await context.Response.SendFileAsync("forest.jpg");
 });
 
 app.Run();
+
+//HttpRequest request = context.Request;
+
+//context.Response.ContentType = "text/html; charset=utf-8";
+//await context.Response.WriteAsync($"<p>Path: {context.Request.Path}</p>" +
+//    $"<p>QueryString: {context.Request.QueryString}</p>");
+
+//var stringBuilder = new System.Text.StringBuilder("<h3>Параметры строки запроса</h3><table>");
+//stringBuilder.Append("<tr><td>Параметр</td><td>Значение</td></tr>");
+//foreach (var param in context.Request.Query)
+//{
+//    stringBuilder.Append($"<tr><td>{param.Key}</td><td>{param.Value}</td></tr>");
+//}
+//stringBuilder.Append("</table>");
+//await context.Response.WriteAsync(stringBuilder.ToString());
+
+//string name = context.Request.Query["name"];
+//string age = context.Request.Query["age"];
+//await context.Response.WriteAsync($"{name} - {age}");
+
+//Debug.WriteLine(request.Body);
+//Debug.WriteLine(request.BodyReader);
+//Debug.WriteLine(request.ContentLength);
+//Debug.WriteLine(request.ContentType);
+//Debug.WriteLine(request.Cookies);
+//// Debug.WriteLine(request.Form);
+//Debug.WriteLine(request.HasFormContentType);
+//Debug.WriteLine(request.Headers);
+//Debug.WriteLine(request.Host);
+//Debug.WriteLine(request.HttpContext);
+//Debug.WriteLine(request.IsHttps);
+//Debug.WriteLine(request.Method);
+//Debug.WriteLine(request.Path);
+//Debug.WriteLine(request.PathBase);
+//Debug.WriteLine(request.Protocol);
+//Debug.WriteLine(request.Query);
+//Debug.WriteLine(request.QueryString);
+//Debug.WriteLine(request.RouteValues);
+//Debug.WriteLine(request.Scheme);
+
+//var path = context.Request.Path;
+//var now = DateTime.Now;
+//var response = context.Response;
+
+//if (path == "/date")
+//    await response.WriteAsync($"Date: {now.ToShortDateString()}");
+//else if (path == "/time")
+//    await response.WriteAsync($"Time: {now.ToShortTimeString()}");
+//else
+//    await response.WriteAsync("Hello METANIT.COM");
+
+//context.Response.ContentType = "text/html; charset=utf-8";
+
+//var acceptHeaderValue = context.Request.Headers.Accept;
+//await context.Response.WriteAsync($"<br>Accept: {acceptHeaderValue}<br>");
+
+//await context.Response.WriteAsync($"<br>Path: {context.Request.Path}<br><br>");
+
+//var stringBuilder = new System.Text.StringBuilder("<table>");
+
+//foreach (var header in request.Headers)
+//{
+//    stringBuilder.Append($"<tr><td>{header.Key}</td><td>{header.Value}</td></tr>");
+//}
+//stringBuilder.Append("</table>");
+//await context.Response.WriteAsync(stringBuilder.ToString());
 
 //HttpResponse response = context.Response;
 //Console.WriteLine(response.Body);
