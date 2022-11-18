@@ -6,39 +6,54 @@ WebApplication app = builder.Build();
 
 app.Run(async (context) =>
 {
-    PhysicalFileProvider fileProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory());
-    IFileInfo fileinfo = fileProvider.GetFileInfo("forest.jpg");
-    // FileInfo fi =new FileInfo("forest.jpg");
+    context.Response.ContentType = "text/html; charset=utf-8";
 
-    context.Response.Headers.ContentDisposition = "attachment; filename=my_forest2.jpg";
-    await context.Response.SendFileAsync(fileinfo);
-
-    //context.Response.Headers.ContentDisposition = "attachment; filename=my_forest.jpg";
-    //await context.Response.SendFileAsync("forest.jpg");
-
-    //var path = context.Request.Path;
-    //var fullPath = $"html/{path}";
-    //var response = context.Response;
-
-    //response.ContentType = "text/html; charset=utf-8";
-    //if (File.Exists(fullPath))
-    //{
-    //    await response.SendFileAsync(fullPath);
-    //}
-    //else
-    //{
-    //    response.StatusCode = 404;
-    //    await response.WriteAsync("<h2>Not Found</h2>");
-    //}
-
-    //context.Response.ContentType = "text/html; charset=utf-8";
-    //await context.Response.SendFileAsync("html/index.html");
-
-    //await context.Response.SendFileAsync("D:\\forest.jpg");
-    //await context.Response.SendFileAsync("forest.jpg");
+    // если обращение идет по адресу "/postuser", получаем данные формы
+    if (context.Request.Path == "/postuser")
+    {
+        var form = context.Request.Form;
+        string name = form["name"];
+        string age = form["age"];
+        await context.Response.WriteAsync($"<div><p>Name: {name}</p><p>Age: {age}</p></div>");
+    }
+    else
+    {
+        await context.Response.SendFileAsync("html/index.html");
+    }
 });
 
 app.Run();
+
+//PhysicalFileProvider fileProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory());
+//IFileInfo fileinfo = fileProvider.GetFileInfo("forest.jpg");
+//// FileInfo fi =new FileInfo("forest.jpg");
+
+//context.Response.Headers.ContentDisposition = "attachment; filename=my_forest2.jpg";
+//await context.Response.SendFileAsync(fileinfo);
+
+////context.Response.Headers.ContentDisposition = "attachment; filename=my_forest.jpg";
+////await context.Response.SendFileAsync("forest.jpg");
+
+////var path = context.Request.Path;
+////var fullPath = $"html/{path}";
+////var response = context.Response;
+
+////response.ContentType = "text/html; charset=utf-8";
+////if (File.Exists(fullPath))
+////{
+////    await response.SendFileAsync(fullPath);
+////}
+////else
+////{
+////    response.StatusCode = 404;
+////    await response.WriteAsync("<h2>Not Found</h2>");
+////}
+
+////context.Response.ContentType = "text/html; charset=utf-8";
+////await context.Response.SendFileAsync("html/index.html");
+
+////await context.Response.SendFileAsync("D:\\forest.jpg");
+////await context.Response.SendFileAsync("forest.jpg");
 
 //HttpRequest request = context.Request;
 
