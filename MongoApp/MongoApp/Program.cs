@@ -15,18 +15,15 @@ namespace MongoApp
             try
             {
                 MongoClient client = new MongoClient("mongodb://localhost:27017");
+
                 var db = client.GetDatabase("test");
                 var collection = db.GetCollection<BsonDocument>("users");
-
-                var filter = Builders<BsonDocument>.Filter.Eq("Name", "Tom");
-                var update = Builders<BsonDocument>.Update.Set("Age", 33).CurrentDate("LastModified");
-                var result = await collection.UpdateManyAsync(filter, update);
-
-                Console.WriteLine($"Matched: {result.MatchedCount}; Modified: {result.ModifiedCount}");
+                // удаляем документ с Name="Sam"
+                var result = await collection.DeleteOneAsync(new BsonDocument("Name", "Sam"));
+                Console.WriteLine($"Удалено документов: {result.DeletedCount}");
 
                 var users = await collection.Find("{}").ToListAsync();
                 foreach (var user in users) Console.WriteLine(user);
-
             }
             catch (Exception ex)
             {
