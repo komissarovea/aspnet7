@@ -22,14 +22,14 @@ namespace MongoApp
         [BsonRepresentation(BsonType.String)]
         public int Age { get; set; }
 
-        [BsonIgnoreIfNull]
-        public Company? Company { get; set; }
+        //[BsonIgnoreIfNull]
+        //public Company? Company { get; set; }
 
         public List<string>? Languages { get; set; } = new List<string>();
     }
 
-    class Company
-    {
-        public string? Name { get; set; } = "";
-    }
+    //class Company
+    //{
+    //    public string? Name { get; set; } = "";
+    //}
 }
