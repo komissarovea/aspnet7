@@ -17,13 +17,12 @@ namespace MongoApp
                 var db = client.GetDatabase("test");
                 var collection = db.GetCollection<BsonDocument>("users");
 
-                // получаем первый документ
-                var user = await collection.Find("{}").FirstAsync();
-                Console.WriteLine(user);
+                var users = await collection.Find("{}")
+         .Skip(2)        // пропускаем 2 документа
+         .Limit(3)       // извлекаем следующие 3 документа
+         .ToListAsync();
 
-                // получаем первый документ, у которого Age = 33
-                var user33 = await collection.Find(new BsonDocument("Age", 33)).FirstAsync();
-                Console.WriteLine(user33);
+                foreach (var user in users) Console.WriteLine(user);
             }
             catch (Exception ex)
             {
