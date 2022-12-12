@@ -17,8 +17,7 @@ namespace MongoApp
                 var db = client.GetDatabase("test");
                 var collection = db.GetCollection<BsonDocument>("users");
 
-                var projection = Builders<BsonDocument>.Projection.Include("Name").Include("Age").Exclude("_id");
-                var users = await collection.Find(new BsonDocument()).Project(projection).ToListAsync();
+                var users = await collection.Find("{}").Project("{Name:1, Age:1, _id:0}").ToListAsync();
 
                 foreach (var user in users) Console.WriteLine(user);
             }
