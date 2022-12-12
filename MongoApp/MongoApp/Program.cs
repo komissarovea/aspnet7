@@ -19,12 +19,31 @@ namespace MongoApp
                 var db = client.GetDatabase("test");
                 var collection = db.GetCollection<BsonDocument>("users");
 
+                // массовое добавление
                 await collection.BulkWriteAsync(new WriteModel<BsonDocument>[]
-                 {
-                    new InsertOneModel<BsonDocument>(new BsonDocument{{"Name", "Tom"}, {"Age", 38 } })
-                 });
-
+                {
+    new InsertOneModel<BsonDocument>(new BsonDocument{{"Name", "Sam"}, {"Age", 28 } }),
+    new InsertOneModel<BsonDocument>(new BsonDocument{{"Name", "Bob"}, {"Age", 42 } }),
+    new InsertOneModel<BsonDocument>(new BsonDocument{{"Name", "Alice"}, {"Age", 33 } })
+                });
+                Console.WriteLine("После добавления");
                 var people = await collection.Find("{}").ToListAsync();
+                foreach (var person in people) Console.WriteLine(person);
+                Console.WriteLine();
+
+                // изменение и удаление
+                await collection.BulkWriteAsync(new WriteModel<BsonDocument>[]
+                {
+    // частичное изменение документа
+    new UpdateOneModel<BsonDocument>(new BsonDocument("Name", "Sam"), new BsonDocument("$set", new BsonDocument("Age", 30))),
+    // замена документа
+    new ReplaceOneModel<BsonDocument>(new BsonDocument("Name", "Bob"), new BsonDocument{ {"Name", "Robert" }, {"Age", 44 } }),
+    // удаление документа
+    new DeleteOneModel<BsonDocument>(new BsonDocument("Name", "Alice"))
+                });
+
+                Console.WriteLine("После изменения");
+                people = await collection.Find("{}").ToListAsync();
                 foreach (var person in people) Console.WriteLine(person);
             }
             catch (Exception ex)
