@@ -18,15 +18,13 @@ namespace MongoApp
                 var db = client.GetDatabase("test");
                 var collection = db.GetCollection<BsonDocument>("users");
 
-                var result = await collection.UpdateOneAsync(
-    new BsonDocument("Name", "Sam"),
-    new BsonDocument("$push",
-            new BsonDocument("Languages",
-                new BsonDocument("$each", new BsonArray { "french", "german" }))));
+                // Увеличим Age на 1 в документах, где Name = Tom
+                var result = await collection.UpdateManyAsync(
+                    new BsonDocument("Name", "Tom"),
+                    new BsonDocument("$inc", new BsonDocument("Age", 1)));
 
                 Console.WriteLine($"Matched: {result.MatchedCount}; Modified: {result.ModifiedCount}");
 
-                // проверяем - выводи документы после обновления
                 var users = await collection.Find("{}").ToListAsync();
                 foreach (var user in users) Console.WriteLine(user);
 
