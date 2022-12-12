@@ -32,7 +32,7 @@ namespace MongoApp
                 Console.WriteLine();
 
                 // изменение и удаление
-                await collection.BulkWriteAsync(new WriteModel<BsonDocument>[]
+                var result = await collection.BulkWriteAsync(new WriteModel<BsonDocument>[]
                 {
     // частичное изменение документа
     new UpdateOneModel<BsonDocument>(new BsonDocument("Name", "Sam"), new BsonDocument("$set", new BsonDocument("Age", 30))),
@@ -42,9 +42,13 @@ namespace MongoApp
     new DeleteOneModel<BsonDocument>(new BsonDocument("Name", "Alice"))
                 });
 
-                Console.WriteLine("После изменения");
-                people = await collection.Find("{}").ToListAsync();
-                foreach (var person in people) Console.WriteLine(person);
+
+                Console.WriteLine($"найдено соответствий: {result.MatchedCount};  добавлено: {result.InsertedCount}; " +
+                    $"изменено: {result.ModifiedCount}; удалено: {result.DeletedCount}");
+
+                //Console.WriteLine("После изменения");
+                //people = await collection.Find("{}").ToListAsync();
+                //foreach (var person in people) Console.WriteLine(person);
             }
             catch (Exception ex)
             {
