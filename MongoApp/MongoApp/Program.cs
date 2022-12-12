@@ -12,14 +12,36 @@ namespace MongoApp
                 MongoClient client = new MongoClient("mongodb://localhost:27017");
                 var db = client.GetDatabase("test");
 
-                BsonElement el = new BsonElement("name", new BsonString("Tom"));
-                Console.WriteLine(el); // name = Tom
-                Console.WriteLine(el.Name); // name
-                Console.WriteLine(el.Value); // Tom
+                //BsonDocument doc = new BsonDocument();
 
+                //BsonElement name = new BsonElement("name", "Tom");
+                //BsonDocument doc = new BsonDocument(name);
+                //Console.WriteLine(doc); // { "name" : "Tom" }
 
-                BsonElement ageElement = new BsonElement("age", 38);
-                Console.WriteLine(ageElement); // age = 38
+                //BsonDocument doc = new BsonDocument
+                //{
+                //    {"name","Tom"},
+                //    {"age", 38},
+                //    { "company", new BsonDocument{{"name" , "microsoft"}}},
+                //    {"languages", new BsonArray{"english", "german", "spanish" } }
+                //};
+                //// получаем значение поля name
+                //Console.WriteLine(doc["name"]);         // Tom
+                //                                        // получаем значение поля languages
+                //Console.WriteLine(doc["languages"]);    // [english, german, spanish]
+                //// изменяем значение поля age
+                //doc["age"] = 22;
+                //Console.WriteLine(doc["age"]);      // 22
+
+                BsonDocument doc = new BsonDocument { { "name", "Bob" } };
+                BsonElement email = new BsonElement("email", "bob@localhost.com");
+                // добавляем элемент email
+                doc.Add(email);
+                Console.WriteLine(doc);    // { "name" : "Bob", "email" : "bob@localhost.com" }
+                // удаляем элемент name
+                doc.Remove("name");
+                Console.WriteLine(doc);  // { "email" : "bob@localhost.com" }
+
             }
             catch (Exception ex)
             {
