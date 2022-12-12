@@ -1,5 +1,7 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using System;
 
 namespace MongoApp
 {
@@ -12,35 +14,22 @@ namespace MongoApp
                 MongoClient client = new MongoClient("mongodb://localhost:27017");
                 var db = client.GetDatabase("test");
 
-                //BsonDocument doc = new BsonDocument();
+                Person person = new Person { Name = "Tom", Age = 38 };
+                person.Company = new Company { Name = "Microsoft" };
 
-                //BsonElement name = new BsonElement("name", "Tom");
-                //BsonDocument doc = new BsonDocument(name);
-                //Console.WriteLine(doc); // { "name" : "Tom" }
+                BsonDocument doc = person.ToBsonDocument();
+                Console.WriteLine(doc);
 
                 //BsonDocument doc = new BsonDocument
                 //{
-                //    {"name","Tom"},
-                //    {"age", 38},
-                //    { "company", new BsonDocument{{"name" , "microsoft"}}},
-                //    {"languages", new BsonArray{"english", "german", "spanish" } }
+                //    {"Name","Tom"},
+                //    {"Age", 38},
+                //    {"Company", new BsonDocument{ {"Name" , "Microsoft"}} },
+                //    {"Languages", new BsonArray{"english", "german", "spanish"} }
                 //};
-                //// получаем значение поля name
-                //Console.WriteLine(doc["name"]);         // Tom
-                //                                        // получаем значение поля languages
-                //Console.WriteLine(doc["languages"]);    // [english, german, spanish]
-                //// изменяем значение поля age
-                //doc["age"] = 22;
-                //Console.WriteLine(doc["age"]);      // 22
+                //Person person = BsonSerializer.Deserialize<Person>(doc);
+                //Console.WriteLine(person.ToJson());
 
-                BsonDocument doc = new BsonDocument { { "name", "Bob" } };
-                BsonElement email = new BsonElement("email", "bob@localhost.com");
-                // добавляем элемент email
-                doc.Add(email);
-                Console.WriteLine(doc);    // { "name" : "Bob", "email" : "bob@localhost.com" }
-                // удаляем элемент name
-                doc.Remove("name");
-                Console.WriteLine(doc);  // { "email" : "bob@localhost.com" }
 
             }
             catch (Exception ex)
