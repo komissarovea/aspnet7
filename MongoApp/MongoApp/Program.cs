@@ -30,6 +30,9 @@ namespace MongoApp
                     // Console.WriteLine(user);
                     Console.WriteLine($"{user.Name} - {user.Age}");
                 }
+
+                long count = await collection.CountDocumentsAsync(new BsonDocument());
+                Console.WriteLine(count);
             }
             catch (Exception ex)
             {
