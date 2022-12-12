@@ -17,9 +17,9 @@ namespace MongoApp
                 var db = client.GetDatabase("test");
 
                 var collection = db.GetCollection<BsonDocument>("users");
-                // определяем построитель фильтров
+
                 var builder = Builders<BsonDocument>.Filter;
-                var filter = !(builder.Eq("Name", "Tom") | builder.Gte("Age", 33));
+                var filter = builder.Where(d => d["Age"] < 30);
 
                 var users = await collection.Find(filter).ToListAsync();
                 foreach (var user in users)
