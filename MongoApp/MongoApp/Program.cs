@@ -18,15 +18,15 @@ namespace MongoApp
                 var db = client.GetDatabase("test");
                 var collection = db.GetCollection<BsonDocument>("users");
 
-                /// определяем фильтр - документ, где Name = Alex и Age = 33
-                var filter = new BsonDocument { { "Name", "Alex" }, { "Age", 33 } };
-                // определяем документ, на который будет заменять
-                var newDocument = new BsonDocument { { "Name", "Alexander" }, { "Age", 34 } };
-                // выполняем замену, если документ не найден, то вставку
-                var result = await collection.ReplaceOneAsync(filter, newDocument, new ReplaceOptions { IsUpsert = true });
+                // определяем фильтр - документ, где Name = Tom
+                var filter = new BsonDocument("Name", "Tom");
+                // определяем параметры обновления - обновляем только поле Age
+                var updateSettings = new BsonDocument("$set", new BsonDocument("Age", 39));
+                // выполняем обновление
+                var result = await collection.UpdateOneAsync(filter, updateSettings);
 
-                Console.WriteLine($"Matched: {result.MatchedCount}; Modified: {result.ModifiedCount}; UpsertedId: {result.UpsertedId}");
-                
+                Console.WriteLine($"Matched: {result.MatchedCount}; Modified: {result.ModifiedCount}");
+
                 // проверяем - выводи документы после обновления
                 var users = await collection.Find("{}").ToListAsync();
                 foreach (var user in users) Console.WriteLine(user);
