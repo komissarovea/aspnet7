@@ -5,10 +5,10 @@ namespace MongoApp
 {
     class Person
     {
-        //[BsonId]
-        //public ObjectId Id { get; set; }
-
         [BsonId]
+        public ObjectId Id { get; set; }
+
+        //[BsonId]
         public int PersonId { get; set; }
 
         //[BsonElement("Login")]

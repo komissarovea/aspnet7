@@ -15,31 +15,34 @@ namespace MongoApp
                 MongoClient client = new MongoClient("mongodb://localhost:27017");
                 var db = client.GetDatabase("test");
 
-                var conventionPack = new ConventionPack
-                {
-                    new CamelCaseElementNameConvention()
-                };
-                ConventionRegistry.Register("camelCase", conventionPack, t => true);
-
-                BsonClassMap.RegisterClassMap<Person>(cm =>
-                {
-                    cm.AutoMap();
-                    cm.MapMember(p => p.Name).SetElementName("username");
-                });
-                Person tom = new Person { Name = "Tom", Age = 38 };
-                Console.WriteLine(tom.ToBsonDocument()); // { "username" : "Tom", "Age" : 38 }
-
-                //BsonDocument doc = new BsonDocument
+                // получаем из бд коллекцию users 
+                //var users = db.GetCollection<BsonDocument>("users");
+                //// документ для добавления
+                //BsonDocument tom = new BsonDocument
                 //{
-                //    {"Name","Tom"},
-                //    {"Age", 38},
-                //    {"Company", new BsonDocument{ {"Name" , "Microsoft"}} },
-                //    {"Languages", new BsonArray{"english", "german", "spanish"} }
+                //    {"Name", "Tom"},
+                //    {"Age", 38}
                 //};
-                //Person person = BsonSerializer.Deserialize<Person>(doc);
-                //Console.WriteLine(person.ToJson());
+                //// добавляем в коллекцию users документ
+                //await users.InsertOneAsync(tom);
 
+                //// документы для добавления
+                //BsonDocument bob = new BsonDocument { { "Name", "Bob" }, { "Age", 42 } };
+                //BsonDocument sam = new BsonDocument { { "Name", "Sam" }, { "Age", 25 } };
 
+                //// добавляем в коллекцию users список документов
+                //await users.InsertManyAsync(new List<BsonDocument> { bob, sam });
+
+                // получаем из бд коллекцию users 
+                // коллекция типизируется типом Person
+                var users = db.GetCollection<Person>("users");
+                // объект для добавления
+                Person alice = new Person { Name = "Alice", Age = 33 };
+
+                // добавляем в коллекцию users
+                await users.InsertOneAsync(alice);
+
+                Console.WriteLine(alice.Id);  // получаем сгенерированный Id
             }
             catch (Exception ex)
             {
