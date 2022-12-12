@@ -19,16 +19,15 @@ namespace MongoApp
 
                 var db = client.GetDatabase("test");
                 IGridFSBucket gridFS = new GridFSBucket(db);
-                // создаем фильтр для поиска
                 var filter = Builders<GridFSFileInfo>.Filter.Eq(info => info.Filename, "cats.jpg");
-                // находим все файлы
+                // находим все файлы по имени "cats.jpg"
                 var fileInfos = await gridFS.FindAsync(filter);
                 // получаем первый файл
                 var fileInfo = fileInfos.FirstOrDefault();
-                // выводим его id
-                Console.WriteLine($"id = {fileInfo?.Id}\nName: {fileInfo?.Filename}\n" +
-                    $"UploadDateTime: {fileInfo?.UploadDateTime}\nSize: {fileInfo?.Length}");
-                Console.WriteLine(fileInfo?.BackingDocument);
+
+                // если файл найден, удаляем его
+                if (fileInfo != null)
+                    await gridFS.DeleteAsync(fileInfo.Id);
             }
             catch (Exception ex)
             {
