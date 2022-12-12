@@ -19,11 +19,13 @@ namespace MongoApp
                 var db = client.GetDatabase("test");
                 var collection = db.GetCollection<BsonDocument>("users");
 
-                var result = await collection.FindOneAndDeleteAsync(new BsonDocument("Name", "Tom"));
-                if (result == null)
-                    Console.WriteLine("Документы не найдены");
-                else
-                    Console.WriteLine($"Удален документ: {result}");
+                await collection.BulkWriteAsync(new WriteModel<BsonDocument>[]
+                 {
+                    new InsertOneModel<BsonDocument>(new BsonDocument{{"Name", "Tom"}, {"Age", 38 } })
+                 });
+
+                var people = await collection.Find("{}").ToListAsync();
+                foreach (var person in people) Console.WriteLine(person);
             }
             catch (Exception ex)
             {
