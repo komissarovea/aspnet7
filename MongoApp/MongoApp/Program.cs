@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace MongoApp
 {
@@ -9,17 +10,16 @@ namespace MongoApp
             try
             {
                 MongoClient client = new MongoClient("mongodb://localhost:27017");
-                IMongoDatabase database = client.GetDatabase("test");
                 var db = client.GetDatabase("test");
-                // await db.CreateCollectionAsync("people");  // создаем коллекцию "people"
-                //await db.RenameCollectionAsync("people", "users"); // из people в users
-                await db.DropCollectionAsync("users");  // удаляем коллекцию "users"
 
-                var collections = await db.ListCollectionNamesAsync(); // await db.ListCollectionsAsync();
-                foreach (var collection in collections.ToList())
-                {
-                    Console.WriteLine(collection);
-                }
+                BsonElement el = new BsonElement("name", new BsonString("Tom"));
+                Console.WriteLine(el); // name = Tom
+                Console.WriteLine(el.Name); // name
+                Console.WriteLine(el.Value); // Tom
+
+
+                BsonElement ageElement = new BsonElement("age", 38);
+                Console.WriteLine(ageElement); // age = 38
             }
             catch (Exception ex)
             {
