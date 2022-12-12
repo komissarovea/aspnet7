@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 using System;
+using System.Text.Json;
 
 namespace MongoApp
 {
@@ -14,25 +15,19 @@ namespace MongoApp
             {
                 MongoClient client = new MongoClient("mongodb://localhost:27017");
                 var db = client.GetDatabase("test");
-
                 // получаем из бд коллекцию users
-                var collection = db.GetCollection<Person>("users");
-                // получаем список всех данных
-                //List<BsonDocument> users = await collection.Find(new BsonDocument()).ToListAsync();
+                // var collection = db.GetCollection<Person>("users");
 
-                // получаем курсор
-                using var cursor = await collection.FindAsync(new BsonDocument());
-                // из курсора получаем список данных
-                List<Person> users = cursor.ToList();
+                var collection = db.GetCollection<BsonDocument>("users");
 
+                // определяем фильтр - находим все документы, где Name = "Tom"
+                var filter = new BsonDocument { { "Name", new BsonDocument("$ne", "Tom") } };
+
+                List<BsonDocument> users = await collection.Find(filter).ToListAsync();
                 foreach (var user in users)
                 {
-                    // Console.WriteLine(user);
-                    Console.WriteLine($"{user.Name} - {user.Age}");
+                    Console.WriteLine(user);
                 }
-
-                long count = await collection.CountDocumentsAsync(new BsonDocument());
-                Console.WriteLine(count);
             }
             catch (Exception ex)
             {
