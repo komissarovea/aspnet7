@@ -16,24 +16,20 @@ namespace MongoApp
             {
                 MongoClient client = new MongoClient("mongodb://localhost:27017");
                 var db = client.GetDatabase("test");
-                var collection = db.GetCollection<Employee>("employees");
+                var collection = db.GetCollection<BsonDocument>("users");
 
-                var companies = await collection.Aggregate()
-                    .Group(emp => emp.Company!.Title,   // группировка по свойству Company.Title
-                    g => new CompanyModel       // из группы создаем объект CompanyModel
-                    {
-                        CompanyName = g.Key,
-                        Employees = g.Select(e => e.Name).ToList() // выбираем в список имена сотрудников
-                    })
-                    .ToListAsync();
+                // определяем фильтр - документ, где Name = Tom и Age = 33
+                var filter = new BsonDocument { { "Name", "Tom" }, { "Age", 33 } };
+                // определяем документ, на который будет заменять
+                var newDocument = new BsonDocument { { "Name", "Tomas" }, { "Age", 34 } };
+                // выполняем замену
+                var result = await collection.ReplaceOneAsync(filter, newDocument);
 
-                foreach (var company in companies)
-                {
-                    Console.WriteLine(company.CompanyName);
-                    foreach (var employeeName in company.Employees)
-                        Console.WriteLine(employeeName);
-                    Console.WriteLine();
-                }
+                Console.WriteLine($"Найдено по соответствию: {result.MatchedCount}; обновлено: {result.ModifiedCount}");
+
+                // проверяем - выводи документы после обновления
+                var users = await collection.Find("{}").ToListAsync();
+                foreach (var user in users) Console.WriteLine(user);
 
             }
             catch (Exception ex)
