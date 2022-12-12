@@ -21,7 +21,10 @@ namespace MongoApp
                 var collection = db.GetCollection<BsonDocument>("users");
 
                 // определяем фильтр - находим все документы, где Name = "Tom"
-                var filter = new BsonDocument { { "Name", new BsonDocument("$ne", "Tom") } };
+                var filter = new BsonDocument("$or", new BsonArray{
+                    new BsonDocument("Age",new BsonDocument("$gte", 33)),
+                    new BsonDocument("Name", "Tom")
+                });
 
                 List<BsonDocument> users = await collection.Find(filter).ToListAsync();
                 foreach (var user in users)
