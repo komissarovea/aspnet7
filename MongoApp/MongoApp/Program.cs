@@ -9,21 +9,15 @@ namespace MongoApp
             try
             {
                 MongoClient client = new MongoClient("mongodb://localhost:27017");
-                //using (var cursor = await client.ListDatabasesAsync())
-                //using (var cursor = await client.ListDatabaseNamesAsync())
-                //{
-                //    var databases = cursor.ToList();
-                //    foreach (var database in databases)
-                //    {
-                //        Console.WriteLine(database);
-                //    }
-                //}
-
                 IMongoDatabase database = client.GetDatabase("test");
-                var grades = database.GetCollection<object>("grades");
-                Console.WriteLine(grades);
+                var db = client.GetDatabase("test");
+               // await db.CreateCollectionAsync("people");  // создаем коллекцию "people"
 
-                await client.DropDatabaseAsync("test2");
+                var collections = await db.ListCollectionNamesAsync(); // await db.ListCollectionsAsync();
+                foreach (var collection in collections.ToList())
+                {
+                    Console.WriteLine(collection);
+                }
             }
             catch (Exception ex)
             {
