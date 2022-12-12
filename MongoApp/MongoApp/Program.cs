@@ -20,7 +20,7 @@ namespace MongoApp
 
                 var collection = db.GetCollection<BsonDocument>("users");
 
-                var filter = new BsonDocument("Languages", BsonNull.Value); // где Languages отсутствует
+                var filter = new BsonDocument("Name", new BsonDocument { { "$regex", "m$" } });
 
                 List<BsonDocument> users = await collection.Find(filter).ToListAsync();
                 foreach (var user in users)
