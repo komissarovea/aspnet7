@@ -18,10 +18,9 @@ namespace MongoApp
                 var db = client.GetDatabase("test");
                 var collection = db.GetCollection<BsonDocument>("users");
 
-                // Увеличим Age на 1 в документах, где Name = Tom
-                var result = await collection.UpdateManyAsync(
-                    new BsonDocument("Name", "Tom"),
-                    new BsonDocument("$inc", new BsonDocument("Age", 1)));
+                var filter = Builders<BsonDocument>.Filter.Eq("Name", "Tom");
+                var update = Builders<BsonDocument>.Update.Set("Age", 33).CurrentDate("LastModified");
+                var result = await collection.UpdateManyAsync(filter, update);
 
                 Console.WriteLine($"Matched: {result.MatchedCount}; Modified: {result.ModifiedCount}");
 
