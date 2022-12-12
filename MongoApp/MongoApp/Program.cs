@@ -15,13 +15,15 @@ namespace MongoApp
             {
                 MongoClient client = new MongoClient("mongodb://localhost:27017");
                 var db = client.GetDatabase("test");
-                var collection = db.GetCollection<Person>("users");
+                var collection = db.GetCollection<BsonDocument>("users");
 
-                // сначала сортируем по Name во возврастанию, а затем по Age по убыванию
-                var sortDefinition = Builders<Person>.Sort.Ascending(p => p.Name).Descending(p => p.Age);
-                var users = await collection.Find("{}").Sort(sortDefinition).ToListAsync();
+                // получаем первый документ
+                var user = await collection.Find("{}").FirstAsync();
+                Console.WriteLine(user);
 
-                foreach (var user in users) Console.WriteLine($"{user.Name} - {user.Age}");
+                // получаем первый документ, у которого Age = 33
+                var user33 = await collection.Find(new BsonDocument("Age", 33)).FirstAsync();
+                Console.WriteLine(user33);
             }
             catch (Exception ex)
             {
