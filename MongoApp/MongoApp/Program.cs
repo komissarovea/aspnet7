@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 using System;
 
@@ -14,11 +15,19 @@ namespace MongoApp
                 MongoClient client = new MongoClient("mongodb://localhost:27017");
                 var db = client.GetDatabase("test");
 
-                Person person = new Person { Name = "Tom", Age = 38 };
-                person.Company = new Company { Name = "Microsoft" };
+                var conventionPack = new ConventionPack
+                {
+                    new CamelCaseElementNameConvention()
+                };
+                ConventionRegistry.Register("camelCase", conventionPack, t => true);
 
-                BsonDocument doc = person.ToBsonDocument();
-                Console.WriteLine(doc);
+                BsonClassMap.RegisterClassMap<Person>(cm =>
+                {
+                    cm.AutoMap();
+                    cm.MapMember(p => p.Name).SetElementName("username");
+                });
+                Person tom = new Person { Name = "Tom", Age = 38 };
+                Console.WriteLine(tom.ToBsonDocument()); // { "username" : "Tom", "Age" : 38 }
 
                 //BsonDocument doc = new BsonDocument
                 //{

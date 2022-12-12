@@ -11,10 +11,10 @@ namespace MongoApp
         [BsonId]
         public int PersonId { get; set; }
 
-        [BsonElement("Login")]
+        //[BsonElement("Login")]
         public string? Name { get; set; }
 
-        [BsonIgnore]
+        [BsonIgnoreIfDefault]
         public string Email { get; set; } = "";
 
         //[BsonIgnoreIfDefault]
