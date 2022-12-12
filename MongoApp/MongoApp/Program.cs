@@ -2,6 +2,7 @@
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 using System;
 using System.Reflection.Metadata;
 using System.Text.Json;
@@ -17,38 +18,13 @@ namespace MongoApp
                 MongoClient client = new MongoClient("mongodb://localhost:27017");
 
                 var db = client.GetDatabase("test");
-                var collection = db.GetCollection<BsonDocument>("users");
+                IGridFSBucket gridFS = new GridFSBucket(db);
 
-                // массовое добавление
-                await collection.BulkWriteAsync(new WriteModel<BsonDocument>[]
-                {
-    new InsertOneModel<BsonDocument>(new BsonDocument{{"Name", "Sam"}, {"Age", 28 } }),
-    new InsertOneModel<BsonDocument>(new BsonDocument{{"Name", "Bob"}, {"Age", 42 } }),
-    new InsertOneModel<BsonDocument>(new BsonDocument{{"Name", "Alice"}, {"Age", 33 } })
-                });
-                Console.WriteLine("После добавления");
-                var people = await collection.Find("{}").ToListAsync();
-                foreach (var person in people) Console.WriteLine(person);
-                Console.WriteLine();
-
-                // изменение и удаление
-                var result = await collection.BulkWriteAsync(new WriteModel<BsonDocument>[]
-                {
-    // частичное изменение документа
-    new UpdateOneModel<BsonDocument>(new BsonDocument("Name", "Sam"), new BsonDocument("$set", new BsonDocument("Age", 30))),
-    // замена документа
-    new ReplaceOneModel<BsonDocument>(new BsonDocument("Name", "Bob"), new BsonDocument{ {"Name", "Robert" }, {"Age", 44 } }),
-    // удаление документа
-    new DeleteOneModel<BsonDocument>(new BsonDocument("Name", "Alice"))
-                });
-
-
-                Console.WriteLine($"найдено соответствий: {result.MatchedCount};  добавлено: {result.InsertedCount}; " +
-                    $"изменено: {result.ModifiedCount}; удалено: {result.DeletedCount}");
-
-                //Console.WriteLine("После изменения");
-                //people = await collection.Find("{}").ToListAsync();
-                //foreach (var person in people) Console.WriteLine(person);
+                // создаем поток из файла
+                using Stream fs = File.OpenRead("D:\\cats.jpg");
+                // сохраняем в бд
+                ObjectId id = await gridFS.UploadFromStreamAsync("cats.jpg", fs);
+                Console.WriteLine($"id файла: {id}");
             }
             catch (Exception ex)
             {
