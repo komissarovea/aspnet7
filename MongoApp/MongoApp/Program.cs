@@ -16,15 +16,15 @@ namespace MongoApp
                 MongoClient client = new MongoClient("mongodb://localhost:27017");
                 var db = client.GetDatabase("test");
 
-                var collection = db.GetCollection<BsonDocument>("users");
+                var collection = db.GetCollection<Person>("users");
 
-                var builder = Builders<BsonDocument>.Filter;
-                var filter = builder.Where(d => d["Age"] < 30);
+                var builder = Builders<Person>.Filter;
+                var filter = builder.Where(p => p.Age < 30);
 
                 var users = await collection.Find(filter).ToListAsync();
                 foreach (var user in users)
                 {
-                    Console.WriteLine(user);
+                    Console.WriteLine($"{user.Name} - {user.Age}");
                 }
             }
             catch (Exception ex)
