@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcApp", "MvcApp\MvcApp.csproj", "{949C22AD-3605-4DC1-9978-60C90B73B642}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvcApp", "MvcApp\MvcApp.csproj", "{949C22AD-3605-4DC1-9978-60C90B73B642}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewApp", "ViewApp\ViewApp.csproj", "{8AECF9B7-0C83-4853-B68C-5E7F23CE134F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{949C22AD-3605-4DC1-9978-60C90B73B642}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{949C22AD-3605-4DC1-9978-60C90B73B642}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{949C22AD-3605-4DC1-9978-60C90B73B642}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AECF9B7-0C83-4853-B68C-5E7F23CE134F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AECF9B7-0C83-4853-B68C-5E7F23CE134F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AECF9B7-0C83-4853-B68C-5E7F23CE134F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AECF9B7-0C83-4853-B68C-5E7F23CE134F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
