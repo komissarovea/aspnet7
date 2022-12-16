@@ -9,28 +9,9 @@ namespace MvcApp.Controllers
 
     public class HomeController : ControllerBase
     {
-        public async Task Index()
-        {
-            string content = @"<form method='post' 
-                    enctype='multipart/form-data'
-                    action='/Home/PersonData'>
-                   <label>Name:</label><br />
-                <input name='name' /><br />
-                <label>Age:</label><br />
-                <input type='number' name='age' /><br />
-                <input type='submit' value='Send' />
-            </form>";
-            Response.ContentType = "text/html;charset=utf-8";
-            await Response.WriteAsync(content);
-        }
+        public Message Index() => new Message("Hello METANIT.COM");
 
-        [HttpPost]
-        public string PersonData()
-        {
-            string name = Request.Form["name"];
-            string age = Request.Form["age"];
-            return $"{name}: {age}";
-        }
+        public record class Message(string Text);
 
         //public async Task Index()
         //{
