@@ -6,7 +6,11 @@ namespace ViewApp.Controllers
     {
         public IActionResult Index()
         {
-            return View("~/Views/Home/Index.cshtml");
+            //ViewData["Message"] = "Hello METANIT.COM";
+            ViewBag.Message = "Hello METANIT.COM";
+            ViewBag.People = new List<string> { "Tom", "Sam", "Bob" };
+
+            return View();
         }
     }
 }
