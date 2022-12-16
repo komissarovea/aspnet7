@@ -5,77 +5,35 @@
     <meta charset="utf-8" />
 </head>
 <body>
-    @{
-        string morning = "Good Morning";
-        string evening = "Good Evening";
-        string hello = "Hello";
-        int hour = DateTime.Now.Hour;
-    }
-    @if (hour < 12)
+    @try
     {
-        <h2>@morning</h2>
+        throw new InvalidOperationException("Something wrong");
     }
-    else if (hour > 17)
+    catch (Exception ex)
     {
-        <h2>@evening</h2>
+        <p>Exception: @ex.Message</p>
     }
-    else
+    finally
     {
-        <h2>@hello</h2>
+        <p>finally</p>
     }
 
     @{
-        string language = "german";
+        bool isEnabled = true;
     }
-    @switch (language)
+    @if (isEnabled)
     {
-        case "russian":
-            <h3>Привет мир!</h3>
-            break;
-        case "german":
-            <h3>Hallo Welt!</h3>
-            break;
-        default:
-            <h3>Hello World!</h3>
-            break;
+        @: Hello
     }
 
-    @{
-        string[] people = { "Tom", "Sam", "Bob" };
+    @functions{
+        public int Sum(int a, int b)
+        {
+            return a + b;
+        }
+        public int Square(int n) => n * n;
     }
-    <ul>
-        @for (var j = 0; j < people.Length; j++)
-        {
-            <li>@people[j]</li>
-        }
-    </ul>
-
-    <ul>
-        @foreach (var person in people)
-        {
-            <li>@person</li>
-        }
-    </ul>
-
-    @{
-        var i = 0;
-    }
-    <ul>
-        @do
-        {
-            <li>@(i * i)</li>
-        }
-        while (i++ < 5);
-    </ul>
-
-    @{
-        i = 0;
-    }
-    <ul>
-        @while (i < people.Length)
-        {
-            <li>@people[i++]</li>
-        }
-    </ul>
+    <p>Sum of 5 and 4: <b> @Sum(5, 4)</b></p>
+    <p>Square of 4: <b>@Square(4)</b></p>
 </body>
 </html>
