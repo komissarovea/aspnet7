@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>METANIT.COM</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    @{
+        //ViewData["Title"] = "ASP.NET Core MVC";
+        ViewBag.Title = "ASP.NET Core MVC 2";
+    }
+
+    <h2>@ViewData["Title"]</h2>
+    <h3>@ViewData["Message"]</h3>
+
+    @model List<string>
+
+    <h2>Count: @Model.Count + 1</h2>
+    <ul>
+        @foreach (string person in Model)
+        {
+            <li>@person</li>
+        }
+    </ul>
+
+
+</body>
+</html>
