@@ -1,8 +1,8 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-//builder.Services.AddControllers();
+//builder.Services.AddControllersWithViews();
+builder.Services.AddControllers(); // добавляем поддержку контроллеров
 //builder.Services.AddMvcCore();
 //builder.Services.AddMvc();
 
@@ -25,6 +25,6 @@ var app = builder.Build();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}");
 
 app.Run();
