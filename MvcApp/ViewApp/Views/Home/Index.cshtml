@@ -1,20 +1,81 @@
-﻿@{
-    string head = "Hello METANIT.COM!"; // определяем переменную head
-    string text = "ASP.NET Core Application";   // определяем переменную text
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title>METANIT.COM</title>
     <meta charset="utf-8" />
 </head>
 <body>
-    <h2>@head</h2> <!-- используем переменную head -->
-    <div>@text</div> <!-- используем переменную text -->
     @{
-        int i = 8;
-        <text>@i</text>
+        string morning = "Good Morning";
+        string evening = "Good Evening";
+        string hello = "Hello";
+        int hour = DateTime.Now.Hour;
     }
-    <text>@(i + 1)</text>
+    @if (hour < 12)
+    {
+        <h2>@morning</h2>
+    }
+    else if (hour > 17)
+    {
+        <h2>@evening</h2>
+    }
+    else
+    {
+        <h2>@hello</h2>
+    }
+
+    @{
+        string language = "german";
+    }
+    @switch (language)
+    {
+        case "russian":
+            <h3>Привет мир!</h3>
+            break;
+        case "german":
+            <h3>Hallo Welt!</h3>
+            break;
+        default:
+            <h3>Hello World!</h3>
+            break;
+    }
+
+    @{
+        string[] people = { "Tom", "Sam", "Bob" };
+    }
+    <ul>
+        @for (var j = 0; j < people.Length; j++)
+        {
+            <li>@people[j]</li>
+        }
+    </ul>
+
+    <ul>
+        @foreach (var person in people)
+        {
+            <li>@person</li>
+        }
+    </ul>
+
+    @{
+        var i = 0;
+    }
+    <ul>
+        @do
+        {
+            <li>@(i * i)</li>
+        }
+        while (i++ < 5);
+    </ul>
+
+    @{
+        i = 0;
+    }
+    <ul>
+        @while (i < people.Length)
+        {
+            <li>@people[i++]</li>
+        }
+    </ul>
 </body>
 </html>
