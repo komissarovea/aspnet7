@@ -7,24 +7,33 @@ namespace MvcApp.Controllers
 {
     public record class Person(string Name, int Age);
 
+    record class Error(string Message);
+
     public class HomeController : Controller
     {
         public IActionResult Index()
         {
-            return RedirectToRoute("default", new { controller = "Home", action = "About", name = "Tom", age = 22 });
-            //return RedirectToAction("About", "Home", new { name = "Tom", age = 37 });
+            return Ok("Don't worry. Be happy");
         }
 
-        public IActionResult About(string name, int age) => Content($"Name:{name}  Age: {age}");
+        //public IActionResult Index(string? name)
+        //{
+        //    if (string.IsNullOrEmpty(name)) return BadRequest("Name undefined");
+        //    return Content($"Name: {name}");
+        //}
 
-        public IActionResult Contact2()
-        {
-            return LocalRedirect("~/Home/About");
+        //public IActionResult Index(int age)
+        //{
+        //    if (age < 18) return Unauthorized(new Error("Access is denied"));
+        //    return Content("Access is available");
+        //}
 
-            //return RedirectPermanent("~/Home/About");
-            //return Redirect("https://microsoft.com");
-            //return Redirect("~/Home/About");
-        }
+        //public IActionResult Index()
+        //{
+        //    return NotFound("Resource not found");
+
+        //    //return StatusCode(401);
+        //}
     }
 
 }
