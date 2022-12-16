@@ -9,8 +9,12 @@ namespace MvcApp.Controllers
 
     public class HomeController : Controller
     {
-        public IActionResult Index() => Content("Index");
-        public IActionResult About() => Content("About");
+        public IActionResult Index()
+        {
+            return RedirectToAction("About", "Home", new { name = "Tom", age = 37 });
+        }
+
+        public IActionResult About(string name, int age) => Content($"Name:{name}  Age: {age}");
 
         public IActionResult Contact2()
         {
