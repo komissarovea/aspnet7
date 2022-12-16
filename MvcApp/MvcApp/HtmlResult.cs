@@ -2,13 +2,13 @@
 
 namespace MvcApp
 {
-    public class HtmlResult : IActionResult
+    public class HtmlResult : ActionResult
     {
         string htmlCode;
 
         public HtmlResult(string html) => htmlCode = html;
 
-        public async Task ExecuteResultAsync(ActionContext context)
+        public override void ExecuteResult(ActionContext context)
         {
             string fullHtmlCode = @$"<!DOCTYPE html>
             <html>
@@ -16,9 +16,10 @@ namespace MvcApp
                     <title>METANIT.COM</title>
                     <meta charset=utf-8 />
                 </head>
-                <body>{htmlCode}</body>
+                <body>{htmlCode} 8</body>
             </html>";
-            await context.HttpContext.Response.WriteAsync(fullHtmlCode);
+            var task = context.HttpContext.Response.WriteAsync(fullHtmlCode);
+            task.GetAwaiter().GetResult();
         }
     }
 }
