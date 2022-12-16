@@ -4,11 +4,19 @@ using System.Diagnostics;
 
 namespace MvcApp.Controllers
 {
+    //[NonController]
     public class HomeController : ControllerBase
     {
+        [NonAction]
         public string Index()
         {
             return "Hello METANIT.COM";
+        }
+
+        [ActionName("Index")]
+        public string Hello()
+        {
+            return "Hello ASP.NET";
         }
 
         //private readonly ILogger<HomeController> _logger;
