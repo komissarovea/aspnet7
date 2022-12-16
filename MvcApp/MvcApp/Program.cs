@@ -6,6 +6,8 @@ builder.Services.AddControllers(); // добавляем поддержку контроллеров
 //builder.Services.AddMvcCore();
 //builder.Services.AddMvc();
 
+builder.Services.AddTransient<ITimeService, SimpleTimeService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,3 +30,13 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+public interface ITimeService
+{
+    string Time { get; }
+}
+
+public class SimpleTimeService : ITimeService
+{
+    public string Time => DateTime.Now.ToString("hh:mm:ss");
+}

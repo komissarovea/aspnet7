@@ -11,42 +11,25 @@ namespace MvcApp.Controllers
 
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        readonly ITimeService timeService;
+
+        public HomeController(ITimeService timeServ)
         {
-            return Ok("Don't worry. Be happy");
+            timeService = timeServ;
         }
 
-        public IActionResult GetFile()
-        {
-            // Путь к файлу
-            string file_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files/hello.txt");
-            // Тип файла - content-type
-            string file_type = "text/plain";
-            // Имя файла - необязательно
-            string file_name = "hello.txt";
-            return PhysicalFile(file_path, file_type, file_name);
-        }
+        //public string Index() => timeService.Time;
 
-        public IActionResult GetBytes()
-        {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files/hello.txt");
-            byte[] mas = System.IO.File.ReadAllBytes(path);
-            string file_type = "text/plain";
-            string file_name = "hello2.txt";
-            return File(mas, file_type, file_name);
-        }
+        //public string Index([FromServices] ITimeService timeService2)
+        //{
+        //    return timeService2.Time;
+        //}
 
-        // Отправка потока
-        public IActionResult GetStream()
+        public string Index()
         {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files/hello.txt");
-            FileStream fs = new FileStream(path, FileMode.Open);
-            string file_type = "text/plain";
-            string file_name = "hello3.txt";
-            return File(fs, file_type, file_name);
+            ITimeService? timeService = HttpContext.RequestServices.GetService<ITimeService>();
+            return timeService?.Time ?? "Undefined";
         }
-
-        public IActionResult GetVirtualFile() => File("Files/hello.txt", "text/plain", "hello4.txt");
     }
 
 }
