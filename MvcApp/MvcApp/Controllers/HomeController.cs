@@ -11,7 +11,10 @@ namespace MvcApp.Controllers
     {
         public IActionResult Index()
         {
-            return new ContentResult() { Content = "<h2>Hello METANIT.COM!</h2>" };
+
+            //return new ObjectResult(new Person("Tom", 37));
+            return new NoContentResult();
+            //return new ContentResult() { Content = "<h2>Hello METANIT.COM!</h2>" };
         }
 
         public ActionResult GetVoid1()
