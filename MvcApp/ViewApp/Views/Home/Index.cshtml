@@ -13,12 +13,16 @@
     <h2>@ViewData["Title"]</h2>
     <h3>@ViewData["Message"]</h3>
 
-    <h2>Count: @ViewBag.People.Count</h2>
+    @model List<string>
+
+    <h2>Count: @Model.Count + 1</h2>
     <ul>
-        @foreach (string person in ViewBag.People)
+        @foreach (string person in Model)
         {
             <li>@person</li>
         }
     </ul>
+
+
 </body>
 </html>

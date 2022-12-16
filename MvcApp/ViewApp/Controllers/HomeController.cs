@@ -8,9 +8,9 @@ namespace ViewApp.Controllers
         {
             //ViewData["Message"] = "Hello METANIT.COM";
             ViewBag.Message = "Hello METANIT.COM";
-            ViewBag.People = new List<string> { "Tom", "Sam", "Bob" };
 
-            return View();
+            var people = new List<string> { "Tom", "Sam", "Bob" };
+            return View(people);
         }
     }
 }
