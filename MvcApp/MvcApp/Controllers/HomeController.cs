@@ -17,6 +17,11 @@ namespace MvcApp.Controllers
         {
 
         }
+
+        public IActionResult GetVoid1()
+        {
+            return new EmptyResult();
+        }
     }
 
 }
