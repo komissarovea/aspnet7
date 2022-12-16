@@ -11,7 +11,8 @@ namespace MvcApp.Controllers
     {
         public IActionResult Index()
         {
-            return RedirectToAction("About", "Home", new { name = "Tom", age = 37 });
+            return RedirectToRoute("default", new { controller = "Home", action = "About", name = "Tom", age = 22 });
+            //return RedirectToAction("About", "Home", new { name = "Tom", age = 37 });
         }
 
         public IActionResult About(string name, int age) => Content($"Name:{name}  Age: {age}");
