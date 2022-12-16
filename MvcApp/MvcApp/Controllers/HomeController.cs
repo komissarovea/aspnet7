@@ -9,16 +9,12 @@ namespace MvcApp.Controllers
 
     public class HomeController : ControllerBase
     {
-        public Message Index() => new Message("Hello METANIT.COM");
-
-        public record class Message(string Text);
-
-        public void GetVoid()
+        public IActionResult Index()
         {
-
+            return new HtmlResult("<h2>Hello METANIT.COM!</h2>");
         }
 
-        public IActionResult GetVoid1()
+        public ActionResult GetVoid1()
         {
             return new EmptyResult();
         }
