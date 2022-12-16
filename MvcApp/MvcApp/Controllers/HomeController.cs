@@ -12,10 +12,12 @@ namespace MvcApp.Controllers
         public IActionResult Index() => Content("Index");
         public IActionResult About() => Content("About");
 
-        public IActionResult Contact()
+        public IActionResult Contact2()
         {
+            return LocalRedirect("~/Home/About");
+
             //return RedirectPermanent("~/Home/About");
-            return Redirect("https://microsoft.com");
+            //return Redirect("https://microsoft.com");
             //return Redirect("~/Home/About");
         }
     }
