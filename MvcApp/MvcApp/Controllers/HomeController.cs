@@ -5,62 +5,40 @@ using System.Diagnostics;
 
 namespace MvcApp.Controllers
 {
-    //[NonController]
+    public record class Person(string Name, int Age);
+
     public class HomeController : ControllerBase
     {
-        public async Task Index()
+        // https://localhost:7288/Home/Index?name=Tom&age=37
+        public string Index()
         {
-            var ctx1 = ControllerContext.HttpContext;
-            var ctx2 = HttpContext;
-            bool b = ctx1 == ctx2;
-            b = ctx2.Request == Request;
-            b = ctx2.Response == Response;
-
-            Response.ContentType = "text/html;charset=utf-8";
-            //await Response.WriteAsync("<h2>Hello METANIT.COM</h2>");
-            System.Text.StringBuilder tableBuilder = new("<h2>Request headers</h2><table>");
-            foreach (var header in Request.Headers)
-            {
-                tableBuilder.Append($"<tr><td>{header.Key}</td><td>{header.Value}</td></tr>");
-            }
-            tableBuilder.Append("</table>");
-            await Response.WriteAsync(tableBuilder.ToString());
+            string name = Request.Query["name"];
+            string age = Request.Query["age"];
+            return $"Name: {name}  Age: {age}";
         }
 
-        //[ActionName("Index")]
-        [HttpHead, HttpOptions, HttpPost, HttpPatch, HttpPut,  HttpDelete]
-        public string Hello()
-        {
-            return "Hello ASP.NET";
-        }
-
-        [HttpPost, HttpOptions]
-        public string Hello2() => "Hello 22";
-
-        protected internal string Hello3() => "Hello 333";
-
-
-        //private readonly ILogger<HomeController> _logger;
-
-        //public HomeController(ILogger<HomeController> logger)
+        //// https://localhost:7288/Home/Index?people=Tom&people=Bob&people=Sam
+        //// https://localhost:7288/Home/Index?people[0]=Tom&people[2]=Bob&people[1]=Sam
+        //// https://localhost:7288/Home/Index?[0]=Tom&[2]=Bob&[1]=Sam
+        //public string Index(string[] people)
         //{
-        //    _logger = logger;
+        //    string result = "";
+        //    foreach (var person in people)
+        //        result = $"{result}{person}; ";
+        //    return result;
         //}
 
-        //public IActionResult Index()
+        //// https://localhost:7288/Home/Index?name=Tom&age=37
+        //public string Index(Person person)
         //{
-        //    return View();
+        //    return $"Person Name: {person.Name}  Person Age: {person.Age}";
         //}
 
-        //public IActionResult Privacy()
+        //public string Index(string name = "Bob", int age = 33)
         //{
-        //    return View();
+        //    return $"Name: {name}  Age: {age}";
         //}
 
-        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        //public IActionResult Error()
-        //{
-        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        //}
+        //public string Index(string name) => $"Your name: {name}";       
     }
 }
