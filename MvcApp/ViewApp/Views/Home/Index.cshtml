@@ -1,13 +1,20 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string head = "Hello METANIT.COM!"; // определяем переменную head
+    string text = "ASP.NET Core Application";   // определяем переменную text
+}
+<!DOCTYPE html>
 <html>
 <head>
     <title>METANIT.COM</title>
     <meta charset="utf-8" />
 </head>
 <body>
-    <h2>Time: @DateTime.Now.ToShortTimeString()</h2>
-    <p>Date: @DateTime.Now.ToLongDateString()</p>
-    <p>@(20 + 30)</p>
-    <p>@@DateTime.Now =@DateTime.Now.ToLongDateString()</p>
+    <h2>@head</h2> <!-- используем переменную head -->
+    <div>@text</div> <!-- используем переменную text -->
+    @{
+        int i = 8;
+        <text>@i</text>
+    }
+    <text>@(i + 1)</text>
 </body>
 </html>
