@@ -11,7 +11,7 @@ namespace MvcApp.Controllers
     {
         public IActionResult Index()
         {
-            return new HtmlResult("<h2>Hello METANIT.COM!</h2>");
+            return new ContentResult() { Content = "<h2>Hello METANIT.COM!</h2>" };
         }
 
         public ActionResult GetVoid1()
