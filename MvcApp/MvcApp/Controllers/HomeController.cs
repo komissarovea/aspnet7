@@ -9,28 +9,15 @@ namespace MvcApp.Controllers
 
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index() => Content("Index");
+        public IActionResult About() => Content("About");
+
+        public IActionResult Contact()
         {
-            Person tom = new Person("Tom", 37);
-
-            var jsonOptions = new System.Text.Json.JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true, // учитываем регистр
-                WriteIndented = true                // отступы для красоты
-            };
-            return Json(tom, jsonOptions);
-
-            //return Content("Hello METANIT.COM");
-
-            //return new ObjectResult(new Person("Tom", 37));
-            //return new NoContentResult();
-            //return new ContentResult() { Content = "<h2>Hello METANIT.COM!</h2>" };
+            //return RedirectPermanent("~/Home/About");
+            return Redirect("https://microsoft.com");
+            //return Redirect("~/Home/About");
         }
-
-        //public JsonResult GetName()
-        //{
-        //    return Json("Tom");
-        //}
     }
 
 }
