@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Routing;
 using MvcApp.Models;
 using System.Diagnostics;
@@ -29,6 +30,14 @@ namespace MvcApp.Controllers
         {
             ITimeService? timeService = HttpContext.RequestServices.GetService<ITimeService>();
             return timeService?.Time ?? "Undefined";
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            Console.WriteLine($"Controller: {context.Controller.GetType().Name}");
+            Console.WriteLine($"Action: {context.ActionDescriptor.DisplayName}");
+
+            base.OnActionExecuting(context);
         }
     }
 
