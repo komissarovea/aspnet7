@@ -4,7 +4,7 @@ namespace MvcApp
 {
     public class HtmlResult : ActionResult
     {
-        string htmlCode;
+        readonly string htmlCode;
 
         public HtmlResult(string html) => htmlCode = html;
 
