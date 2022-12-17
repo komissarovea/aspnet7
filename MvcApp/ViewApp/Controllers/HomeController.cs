@@ -22,6 +22,11 @@ namespace ViewApp.Controllers
 
         public IActionResult About() => View();
 
+        public ViewResult Contact()
+        {
+            return View();
+        }
+
         public IActionResult Hello()
         {
             return PartialView();
