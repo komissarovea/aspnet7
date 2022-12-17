@@ -1,7 +1,7 @@
-﻿<h1>Index View</h1>
+﻿<h1>Welcome</h1>
 
-@*@await Html.PartialAsync("Hello")*@
+@await Html.PartialAsync("Hello", new List<string>{"Hello", "Привет", "Hallo", "Salut"})
 
 @{
-    await Html.RenderPartialAsync("Hello2");
+    await Html.RenderPartialAsync("Hello", new List<string> { "Salut1" });
 }
