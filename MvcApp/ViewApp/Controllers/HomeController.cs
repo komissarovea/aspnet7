@@ -9,9 +9,15 @@ namespace ViewApp.Controllers
         public IActionResult Index() => View();
 
         [HttpPost]
-        public string Index(bool isMarried, string color, string language)
+        public string Index(bool isMarried, string color, string[] languages)
         {
-            return $"isMarried: {isMarried} color: {color} Language: {language}";
+            string result = $"isMarried: {isMarried} color: {color} ";
+
+            foreach (string lang in languages)
+            {
+                result = $"{result} {lang};";
+            }
+            return result;
         }
 
         public IActionResult About() => View();
