@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Drawing;
 
 namespace ViewApp.Controllers
 {
@@ -8,9 +9,9 @@ namespace ViewApp.Controllers
         public IActionResult Index() => View();
 
         [HttpPost]
-        public string Index(string username, string password, int age, string comment)
+        public string Index(bool isMarried, string color, string language)
         {
-            return $"User Name: {username}   Password: {password}   Age: {age}  Comment: {comment}";
+            return $"isMarried: {isMarried} color: {color} Language: {language}";
         }
 
         public IActionResult About() => View();
