@@ -1,9 +1,7 @@
-﻿@*@using ViewApp.Models; *@
+﻿<h1>Index View</h1>
+
+@*@await Html.PartialAsync("Hello")*@
 
 @{
-    Layout = null;
-    Person tom = new Person("Tom", 37);
+    await Html.RenderPartialAsync("Hello2");
 }
-<h2>Person Data</h2>
-<h3>Name: @tom.Name</h3>
-<h3>Age: @tom.Age</h3>

@@ -6,5 +6,10 @@ namespace ViewApp.Controllers
     {
         public IActionResult Index() => View();
         public IActionResult About() => View();
+
+        public IActionResult Hello()
+        {
+            return PartialView();
+        }
     }
 }
