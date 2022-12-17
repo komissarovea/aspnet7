@@ -1,8 +1,9 @@
-﻿@{
-    ViewBag.Title = "Index";
-}
-<h3>Index Content</h3>
+﻿@*@using ViewApp.Models; *@
 
-@section Footer {
-       Copyright© Metanit.com, @DateTime.Now.Year. All rights reserved
+@{
+    Layout = null;
+    Person tom = new Person("Tom", 37);
 }
+<h2>Person Data</h2>
+<h3>Name: @tom.Name</h3>
+<h3>Age: @tom.Age</h3>
